@@ -23,7 +23,7 @@ const JobForm = ({job}: Props) => {
 
     return ( 
         <Form method="post" >
-            <DatePicker selected={startDate} onChange={(date) => date && setStartDate(date)} />
+            <DatePicker selected={startDate} onChange={(date) => date && setStartDate(date)} name="appliedAt" />
             <p>
                 <label>
                 Position:
@@ -60,10 +60,10 @@ const JobForm = ({job}: Props) => {
             <p>
                 <label htmlFor="job_result" >Result</label>
                 <select name="result" id="job_result" >
-                    <option value="waiting">Waiting for response</option>
-                    <option value="interview">Scheduled an interview</option>
-                    <option value="rejected">Rejected</option>
-                    <option value="offer">Recieved an offer</option>
+                    <option value="Waiting for response">Waiting for response</option>
+                    <option value="Scheduled an interview">Scheduled an interview</option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Recieved an offer">Recieved an offer</option>
                 </select>
             </p>
             <p>

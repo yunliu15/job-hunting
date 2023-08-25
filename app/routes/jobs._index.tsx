@@ -1,5 +1,5 @@
 import { LoaderArgs, json } from "@remix-run/node"
-import { useLoaderData } from "@remix-run/react"
+import { Link, useLoaderData } from "@remix-run/react"
 import { getJobes } from "~/models/job.server"
 
 export const loader = async ({request}: LoaderArgs ) => {
@@ -11,7 +11,7 @@ export default function JobsRoute() {
     return (
         <main className="relative min-h-screen bg-white py-4">
             <h1 className="my-6 text-center text-5xl">Jobs Applied</h1>
-
+            <Link to="new" >Add New Job</Link>
             <table>
                 <tr>
                     <th>ID</th>
@@ -24,11 +24,12 @@ export default function JobsRoute() {
                 {
                     jobs.map((job) => {
                         return (
-                            <tr>
+                            <tr key={job.id} >
                                 <td>{job.id}</td>
                                 <td>{job.appliedAt}</td>
                                 <td>{job.position}</td>
                                 <td>{job.company}</td>
+                                <td>{job.website}</td>
                                 <td>{job.result} </td>
                             </tr>
                         )
