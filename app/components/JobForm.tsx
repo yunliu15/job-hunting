@@ -1,5 +1,5 @@
 import { Job } from "@prisma/client";
-import { Form, useNavigation } from "@remix-run/react";
+import { Form, Link, useNavigation } from "@remix-run/react";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 
@@ -14,7 +14,7 @@ const inputClassName =
 
 
 const JobForm = ({job}: Props) => {
-    const [startDate, setStartDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(job? new Date(job.appliedAt): new Date());
     const isNewJob = !job;
     const navigation = useNavigation();
     const isProcessing = Boolean(
@@ -59,7 +59,7 @@ const JobForm = ({job}: Props) => {
             </p>
             <p>
                 <label htmlFor="job_result" >Result</label>
-                <select name="result" id="job_result" >
+                <select name="result" id="job_result" defaultValue={job?.result}>
                     <option value="Waiting for response">Waiting for response</option>
                     <option value="Scheduled an interview">Scheduled an interview</option>
                     <option value="Rejected">Rejected</option>
@@ -77,17 +77,29 @@ const JobForm = ({job}: Props) => {
                 />
             </p>
             <p className="flex justify-end gap-4">
-            <button
-            type="submit"
-            className="rounded bg-blue-500 py-2 px-4 text-white hover:bg-blue-600 focus:bg-blue-400 disabled:bg-blue-300"
-            disabled={isProcessing}
-            >
-            {
-            isNewJob? (isProcessing? "Creating..." : "Create Job")
-            : (isProcessing? "Updating..." : "Update Job")
-            
-            }
-            </button>
+                <Link className="py-2 px-4 hover:underline" to="/jobs">Cancel</Link>
+                {!!job && (
+                <button
+                    type="submit"
+                    name="intent"
+                    value="delete"
+                    className="rounded bg-red-500 py-2 px-4 text-white hover:bg-red-600 focus:bg-red-400 disabled:bg-red-300"
+                    disabled={isProcessing}
+                >
+                    {isProcessing ? "Deleting..." : "Delete"}
+                </button>
+                )}
+                <button
+                type="submit"
+                className="rounded bg-blue-500 py-2 px-4 text-white hover:bg-blue-600 focus:bg-blue-400 disabled:bg-blue-300"
+                disabled={isProcessing}
+                >
+                {
+                isNewJob? (isProcessing? "Creating..." : "Create Job")
+                : (isProcessing? "Updating..." : "Update Job")
+                
+                }
+                </button>
             </p>
         </Form>
     );
